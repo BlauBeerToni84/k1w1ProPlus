@@ -1,0 +1,83 @@
+name: Android APK (Gradle • no EAS)
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install SDK/NDK/CMake
+        run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006" "cmake;3.22.1"
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: 'npm'
+
+      - name: Install deps
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm i; fi
+
+      - name: Prebuild Android (idempotent)
+        run: npx --yes expo prebuild --platform android --non-interactive || true
+
+      - name: Gradle assembleRelease
+        working-directory: android
+        run: ./gradlew assembleRelease -x lint -x test --stacktrace
+
+      - name: Prepare keystore from secrets
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64"
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/upload-keystore.jks
+
+      - name: Zipalign + Sign APK
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -e
+          APK_DIR="android/app/build/outputs/apk/release"
+          APK_UNSIGNED="$APK_DIR/app-release-unsigned.apk"
+          APK_RAW="$APK_DIR/app-release.apk"
+          OUT_ALIGNED="$APK_DIR/app-release-aligned.apk"
+          OUT_SIGNED="$APK_DIR/app-release-aligned-signed.apk"
+
+          # Falls signierter Output direkt existiert, überführen wir ihn in den Standardpfad
+          if [ -f "$APK_RAW" ] && [ ! -f "$APK_UNSIGNED" ]; then cp "$APK_RAW" "$APK_UNSIGNED"; fi
+          test -f "$APK_UNSIGNED"
+
+          "$ANDROID_SDK_ROOT/build-tools/36.0.0/zipalign" -f 4 "$APK_UNSIGNED" "$OUT_ALIGNED"
+          "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" sign \
+            --ks android/upload-keystore.jks \
+            --ks-pass pass:"$ANDROID_KEYSTORE_PASSWORD" \
+            --ks-key-alias "$ANDROID_KEY_ALIAS" \
+            --key-pass pass:"$ANDROID_KEY_PASSWORD" \
+            --out "$OUT_SIGNED" \
+            "$OUT_ALIGNED"
+
+          "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" verify "$OUT_SIGNED"
+          echo "SIGNED_APK=$OUT_SIGNED" >> $GITHUB_ENV
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-signed
+          path: ${{ env.SIGNED_APK }}

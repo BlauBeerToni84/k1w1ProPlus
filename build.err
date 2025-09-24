@@ -1,0 +1,11 @@
+Using EAS CLI without version control system is not recommended, use this mode only if you know what you are doing.
+Resolved "production" environment for the build. Learn more: https://docs.expo.dev/eas/environment-variables/#setting-the-environment-for-your-builds
+No environment variables with visibility "Plain text" and "Sensitive" found for the "production" environment on EAS.
+
+✔ Using local Android credentials (credentials.json)
+
+Compressing project files and uploading to EAS Build. Learn more: https://expo.fyi/eas-build-archive
+⠋ Uploading to EAS Build (0 / 120 KB)⠙ Uploading to EAS Build (64.0 KB / 120 KB)⠹ Uploading to EAS Build (64.0 KB / 120 KB)⠸ Uploading to EAS Build (120 KB / 120 KB)⠼ Uploading to EAS Build (120 KB / 120 KB)⠴ Uploading to EAS Build (120 KB / 120 KB)⠦ Uploading to EAS Build (120 KB / 120 KB)⠧ Uploading to EAS Build (120 KB / 120 KB)⠇ Uploading to EAS Build (120 KB / 120 KB)⠏ Uploading to EAS Build (120 KB / 120 KB)⠋ Uploading to EAS Build (120 KB / 120 KB)⠙ Uploading to EAS Build (120 KB / 120 KB)⠹ Uploading to EAS Build (120 KB / 120 KB)⠸ Uploading to EAS Build (120 KB / 120 KB)⠼ Uploading to EAS Build (120 KB / 120 KB)✔ Uploaded to EAS 1s
+Skipping project fingerprint
+This account has used its builds from the Free plan this month, which will reset in 6 days (on Wed Oct 01 2025). Upgrade your plan for more builds with shorter wait times and longer timeouts, and to run more builds concurrently with a subscription plan. https://expo.dev/accounts/blaubeertoni84/settings/billing
+    Error: build command failed.
