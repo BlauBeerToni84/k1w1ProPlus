@@ -3,7 +3,6 @@ on:
   workflow_dispatch:
 
 env:
-  # Secrets werden als Env gemappt (für optionales Signing)
   ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
   ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
   ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -15,8 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Java 17
         uses: actions/setup-java@v4
@@ -53,30 +50,17 @@ jobs:
           yes | "$SDKMAN" --licenses
           set -o pipefail
 
-      - name: Debug JS bundle (dry run)
+      - name: React Native bundle dry-run
         continue-on-error: true
         run: |
           set -eux
-          ENTRY="index.js"
-          [ -f index.tsx ] && ENTRY="index.tsx"
-          [ -f index.ts ]  && ENTRY="index.ts"
+          ENTRY="index.js"; [ -f index.tsx ] && ENTRY=index.tsx; [ -f index.ts ] && ENTRY=index.ts
           npx react-native bundle \
-            --platform android \
-            --dev false \
+            --platform android --dev false \
             --entry-file "$ENTRY" \
             --bundle-output /tmp/index.android.bundle \
             --assets-dest /tmp/app-assets \
             --config metro.config.js
-
-      - name: Upload bundle dry-run log (always)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bundle-dryrun
-          path: |
-            /tmp/index.android.bundle
-            /tmp/app-assets
-          if-no-files-found: ignore
 
       - name: Prepare keystore from secrets (optional)
         if: env.ANDROID_KEYSTORE_BASE64 != ''
@@ -84,41 +68,21 @@ jobs:
           set -eux
           mkdir -p android/app
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
-          # Fallback für Gradle-Projekte, die Properties lesen
-          cat >> android/gradle.properties <<'EOF'
-MYAPP_UPLOAD_STORE_FILE=release.keystore
-MYAPP_UPLOAD_KEY_ALIAS=${ANDROID_KEY_ALIAS}
-MYAPP_UPLOAD_STORE_PASSWORD=${ANDROID_KEYSTORE_PASSWORD}
-MYAPP_UPLOAD_KEY_PASSWORD=${ANDROID_KEY_PASSWORD}
-EOF
+          {
+            echo "MYAPP_UPLOAD_STORE_FILE=release.keystore"
+            echo "MYAPP_UPLOAD_KEY_ALIAS=${ANDROID_KEY_ALIAS}"
+            echo "MYAPP_UPLOAD_STORE_PASSWORD=${ANDROID_KEYSTORE_PASSWORD}"
+            echo "MYAPP_UPLOAD_KEY_PASSWORD=${ANDROID_KEY_PASSWORD}"
+          } >> android/gradle.properties
 
-      - name: Gradle assembleRelease
+      - name: Assemble Release
         working-directory: android
         env:
           NODE_OPTIONS: --max-old-space-size=4096
         run: |
           set -eux
+          chmod +x ./gradlew
           ./gradlew :app:assembleRelease --no-daemon --stacktrace --info
-
-      - name: Sign unsigned APK (fallback, wenn Gradle nicht signiert hat)
-        if: env.ANDROID_KEYSTORE_BASE64 != ''
-        run: |
-          set -eux
-          APK=$(ls -1 android/app/build/outputs/apk/release/*-unsigned.apk 2>/dev/null | head -n1 || true)
-          if [ -n "${APK:-}" ]; then
-            BT=$(ls -d "$ANDROID_SDK_ROOT"/build-tools/* | sort -V | tail -n1)
-            "$BT/zipalign" -f -p 4 "$APK" "${APK/unsigned/aligned}"
-            "$BT/apksigner" sign \
-              --ks android/app/release.keystore \
-              --ks-key-alias "$ANDROID_KEY_ALIAS" \
-              --ks-pass pass:"$ANDROID_KEYSTORE_PASSWORD" \
-              --key-pass pass:"$ANDROID_KEY_PASSWORD" \
-              --out "${APK/unsigned/aligned-signed}" \
-              "${APK/unsigned/aligned}"
-            "$BT/apksigner" verify --print-certs "${APK/unsigned/aligned-signed}"
-          else
-            echo "Kein *-unsigned.apk gefunden – vermutlich hat Gradle bereits signiert."
-          fi
 
       - name: Upload APK/AAB
         uses: actions/upload-artifact@v4
@@ -129,12 +93,12 @@ EOF
             android/app/build/outputs/bundle/release/*.aab
           if-no-files-found: warn
 
-      - name: Upload build logs (always)
+      - name: Upload bundle dry-run output
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-logs
+          name: bundle-dryrun
           path: |
-            android/app/build/outputs/**/*.log
-            android/app/build/reports/**/*
+            /tmp/index.android.bundle
+            /tmp/app-assets
           if-no-files-found: ignore
