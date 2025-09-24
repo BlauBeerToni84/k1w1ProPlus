@@ -22,14 +22,19 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # WICHTIG: Kein setup-android Action!
-      - name: Point ANDROID_SDK_ROOT to preinstalled SDK
-        run: echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+      # Wichtig: KEIN setup-android, wir nehmen das vorinstallierte SDK.
+      - name: Export Android SDK env
+        run: |
+          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
 
       - name: Install Android packages + accept licenses
         run: |
           set -euxo pipefail
           SDKMAN="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMAN" ]; then
+            SDKMAN="$(ls -d "$ANDROID_SDK_ROOT"/cmdline-tools/*/bin/sdkmanager | head -n1)"
+          fi
           yes | "$SDKMAN" --install \
             "platform-tools" \
             "platforms;android-34" \
