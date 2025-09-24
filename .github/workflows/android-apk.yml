@@ -38,7 +38,24 @@ jobs:
 
       - name: Gradle assembleRelease
         working-directory: android
-        run: ./gradlew assembleRelease -x lint -x test --stacktrace
+        env:
+          ORG_GRADLE_PROJECT_android.useAndroidX: "true"
+          ORG_GRADLE_PROJECT_android.enableJetifier: "true"
+          JAVA_TOOL_OPTIONS: "-Xmx3g"
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -Dkotlin.daemon.jvm.options=-Xmx2g"
+        run: ./gradlew --version run: 
+./gradlew --version && 
+./gradlew :app:tasks --all && 
+./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode allrun: 
+./gradlew --version && 
+./gradlew :app:tasks --all && 
+./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode all ./gradlew :app:tasks --all run: 
+./gradlew --version && 
+./gradlew :app:tasks --all && 
+./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode allrun: 
+./gradlew --version && 
+./gradlew :app:tasks --all && 
+./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode all ./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode all
 
       - name: Prepare keystore from secrets
         env:
@@ -81,3 +98,4 @@ jobs:
         with:
           name: app-release-signed
           path: ${{ env.SIGNED_APK }}
+
