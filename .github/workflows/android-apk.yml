@@ -9,10 +9,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    env:
-      CI: true
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-      ANDROID_HOME: /usr/local/lib/android/sdk
 
     steps:
       - name: Checkout
@@ -26,7 +22,17 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # Android SDK Pakete + Lizenzen (ohne pipefail, toleriert "yes: Broken pipe")
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Wichtig: KEIN setup-android Action. Wir nutzen das vorinstallierte SDK.
+      - name: Export Android SDK env
+        run: |
+          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+
       - name: Install Android packages + accept licenses
         run: |
           set -eux
@@ -34,78 +40,77 @@ jobs:
           if [ ! -x "$SDKMAN" ]; then
             SDKMAN="$(ls -d "$ANDROID_SDK_ROOT"/cmdline-tools/*/bin/sdkmanager | head -n1)"
           fi
-          set +e
-          yes | "$SDKMAN" --install \
-            "platform-tools" "platforms;android-34" "build-tools;34.0.0" \
-            "cmake;3.22.1" "ndk;27.1.12297006"
-          yes | "$SDKMAN" --licenses
-          set -e
 
-      - name: Setup Node 18 (LTS)
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'yarn'
+          # kein pipefail bei yes | sdkmanager (vermeidet SIGPIPE)
+          set +o pipefail
+          yes | "$SDKMAN" --install \
+            "platform-tools" \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            "cmake;3.22.1" \
+            "ndk;26.1.10909125" \
+            "ndk;27.1.12297006"
+          yes | "$SDKMAN" --licenses
+          set -o pipefail
 
       - name: Install deps
         run: |
           set -eux
           corepack enable || true
           if [ -f yarn.lock ]; then
-            yarn install --immutable || yarn install
+            yarn install --frozen-lockfile
+          elif [ -f package-lock.json ]; then
+            npm ci
           else
-            npm ci || npm i
-          fi
-
-      - name: Ensure RN CLI present (install if missing)
-        run: |
-          set -eux
-          node -e "try{require.resolve('@react-native-community/cli/package.json')}catch(e){process.exit(2)}"
-          if [ $? -eq 2 ]; then
-            if [ -f yarn.lock ]; then
-              yarn add -D @react-native-community/cli @react-native-community/cli-platform-android
-            else
-              npm i -D @react-native-community/cli @react-native-community/cli-platform-android
-            fi
+            npm i
           fi
 
       - name: Prebuild Android (idempotent)
         run: |
           set -eux
-          npx expo prebuild -p android --non-interactive --no-install || true
+          if [ ! -f android/gradlew ]; then
+            npx expo prebuild --platform android --non-interactive || true
+          fi
 
-      # Klarer JS-Bundle-Dry-Run -> falls Fehler, siehst du hier die echte JS/Metro-Message
       - name: Debug JS bundle (dry run)
-        env:
-          NODE_OPTIONS: --max-old-space-size=4096
+        continue-on-error: true
         run: |
           set -eux
+          ENTRY="index.js"
+          [ -f index.tsx ] && ENTRY="index.tsx"
+          [ -f index.ts ]  && ENTRY="index.ts"
+          echo "Entry file: $ENTRY"
+          corepack enable || true
           node -v
-          node -e "console.log('react-native =', require.resolve('react-native/package.json'))"
-          node -e "console.log('cli          =', require.resolve('@react-native-community/cli/package.json'))"
-          ENTRY="index.js"; [ -f index.tsx ] && ENTRY="index.tsx"; [ -f index.ts ] && ENTRY="index.ts"
-          echo "Entry: $ENTRY"
+          yarn -v || npm -v || true
           npx react-native bundle \
             --platform android \
             --dev false \
             --entry-file "$ENTRY" \
             --bundle-output /tmp/index.android.bundle \
-            --assets-dest /tmp/app-assets
+            --assets-dest /tmp/app-assets \
+            --config metro.config.js \
+            2>&1 | tee /tmp/bundle-dryrun.log
 
-      - name: Gradle assembleRelease
-        working-directory: android
-        env:
-          NODE_OPTIONS: --max-old-space-size=4096
-        run: |
-          set -eux
-          ./gradlew :app:assembleRelease --no-daemon --stacktrace --info
+      - name: Upload bundle dry-run log (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-dryrun
+          path: |
+            /tmp/bundle-dryrun.log
+            /tmp/index.android.bundle
+            /tmp/app-assets
+          if-no-files-found: ignore
 
-      # Optionales Signieren – läuft nur, wenn Secrets vorhanden sind
       - name: Prepare keystore from secrets
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEYSTORE_PASSWORD != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
+        if: env.ANDROID_KEYSTORE_BASE64 != ''
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
           set -eux
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
+          mkdir -p android/app
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
           {
             echo "MYAPP_UPLOAD_STORE_FILE=release.keystore"
             echo "MYAPP_UPLOAD_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}"
@@ -113,30 +118,29 @@ jobs:
             echo "MYAPP_UPLOAD_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}"
           } >> android/gradle.properties
 
-      - name: Zipalign + Sign APK
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && exists('android/app/build/outputs/apk/release/app-release-unsigned.apk') }}
+      - name: Gradle assembleRelease
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        working-directory: android
         run: |
           set -eux
-          BUILD_DIR="android/app/build/outputs/apk/release"
-          UNSIGNED="$BUILD_DIR/app-release-unsigned.apk"
-          ALIGNED="$BUILD_DIR/app-release-aligned.apk"
-          SIGNED="$BUILD_DIR/app-release-signed.apk"
-          "$ANDROID_SDK_ROOT/build-tools/34.0.0/zipalign" -f -p 4 "$UNSIGNED" "$ALIGNED"
-          "$ANDROID_SDK_ROOT/build-tools/34.0.0/apksigner" sign \
-            --ks android/app/release.keystore \
-            --ks-key-alias "${{ secrets.ANDROID_KEY_ALIAS }}" \
-            --ks-pass env:ANDROID_KEYSTORE_PASSWORD \
-            --key-pass env:ANDROID_KEY_PASSWORD \
-            --out "$SIGNED" "$ALIGNED"
-        env:
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ./gradlew :app:assembleRelease --no-daemon --stacktrace --info
 
-      - name: Upload APK(s)
+      - name: Upload APK/AAB
         uses: actions/upload-artifact@v4
         with:
-          name: app-apk
+          name: android-dist
           path: |
             android/app/build/outputs/apk/release/*.apk
-            android/app/build/outputs/apk/release/*.aab
+            android/app/build/outputs/bundle/release/*.aab
           if-no-files-found: warn
+
+      - name: Upload build logs (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            android/app/build/outputs/**/*.log
+            android/app/build/reports/**/*
+          if-no-files-found: ignore
