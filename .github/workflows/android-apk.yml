@@ -1,11 +1,18 @@
 name: Android APK (Gradle • no EAS)
+
 on:
   workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -13,28 +20,53 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: '17'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: true
 
-      - name: Install SDK/NDK/CMake
+      - name: Install Android packages
         run: |
-          yes | sdkmanager --licenses >/dev/null
-          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006" "cmake;3.22.1"
+          set -euxo pipefail
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install \
+            "platform-tools" \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            "cmake;3.22.1" \
+            "ndk;27.1.12297006"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: 'npm'
+          node-version: 20
+          cache: npm
 
       - name: Install deps
         run: |
-          if [ -f package-lock.json ]; then npm ci; else npm i; fi
+          set -eux
+          if [ -f package-lock.json ]; then
+            npm ci
+          elif [ -f yarn.lock ]; then
+            corepack enable
+            yarn install --frozen-lockfile
+          else
+            npm install
+          fi
 
       - name: Prebuild Android (idempotent)
-        run: npx --yes expo prebuild --platform android --non-interactive || true
+        env:
+          CI: "1"
+        run: |
+          set -eux
+          if [ -d android ]; then
+            echo "android/ exists → skip expo prebuild"
+          else
+            npx --yes expo prebuild --platform android
+          fi
 
       - name: Gradle assembleRelease
         working-directory: android
@@ -43,59 +75,44 @@ jobs:
           ORG_GRADLE_PROJECT_android.enableJetifier: "true"
           JAVA_TOOL_OPTIONS: "-Xmx3g"
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -Dkotlin.daemon.jvm.options=-Xmx2g"
-        run: ./gradlew --version run: 
-./gradlew --version && 
-./gradlew :app:tasks --all && 
-./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode allrun: 
-./gradlew --version && 
-./gradlew :app:tasks --all && 
-./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode all ./gradlew :app:tasks --all run: 
-./gradlew --version && 
-./gradlew :app:tasks --all && 
-./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode allrun: 
-./gradlew --version && 
-./gradlew :app:tasks --all && 
-./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode all ./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode all
+        run: |
+          set -euxo pipefail
+          chmod +x ./gradlew
+          ./gradlew --version
+          ./gradlew :app:tasks --all
+          ./gradlew assembleRelease -x lint -x test --no-daemon --stacktrace --info --warning-mode all
 
       - name: Prepare keystore from secrets
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          test -n "$ANDROID_KEYSTORE_BASE64"
+          set -euo pipefail
+          test -n "${ANDROID_KEYSTORE_BASE64:-}" || { echo "Secret ANDROID_KEYSTORE_BASE64 fehlt"; exit 1; }
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/upload-keystore.jks
 
       - name: Zipalign + Sign APK
         env:
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          set -e
-          APK_DIR="android/app/build/outputs/apk/release"
-          APK_UNSIGNED="$APK_DIR/app-release-unsigned.apk"
-          APK_RAW="$APK_DIR/app-release.apk"
-          OUT_ALIGNED="$APK_DIR/app-release-aligned.apk"
-          OUT_SIGNED="$APK_DIR/app-release-aligned-signed.apk"
-
-          # Falls signierter Output direkt existiert, überführen wir ihn in den Standardpfad
-          if [ -f "$APK_RAW" ] && [ ! -f "$APK_UNSIGNED" ]; then cp "$APK_RAW" "$APK_UNSIGNED"; fi
-          test -f "$APK_UNSIGNED"
-
-          "$ANDROID_SDK_ROOT/build-tools/36.0.0/zipalign" -f 4 "$APK_UNSIGNED" "$OUT_ALIGNED"
-          "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" sign \
+          set -euxo pipefail
+          OUT=android/app/build/outputs/apk/release
+          UNSIGNED="$OUT/app-release-unsigned.apk"
+          ALIGNED="$OUT/app-release-aligned.apk"
+          SIGNED="$OUT/app-release-signed.apk"
+          test -f "$UNSIGNED" || { echo "Unsigned APK not found at $UNSIGNED"; exit 1; }
+          "$ANDROID_HOME/build-tools/34.0.0/zipalign" -p 4 "$UNSIGNED" "$ALIGNED"
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" sign \
             --ks android/upload-keystore.jks \
-            --ks-pass pass:"$ANDROID_KEYSTORE_PASSWORD" \
             --ks-key-alias "$ANDROID_KEY_ALIAS" \
-            --key-pass pass:"$ANDROID_KEY_PASSWORD" \
-            --out "$OUT_SIGNED" \
-            "$OUT_ALIGNED"
-
-          "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" verify "$OUT_SIGNED"
-          echo "SIGNED_APK=$OUT_SIGNED" >> $GITHUB_ENV
+            --ks-pass env:ANDROID_KEYSTORE_PASSWORD \
+            --key-pass env:ANDROID_KEY_PASSWORD \
+            --out "$SIGNED" "$ALIGNED"
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "$SIGNED"
 
       - name: Upload signed APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release-signed
-          path: ${{ env.SIGNED_APK }}
-
+          path: android/app/build/outputs/apk/release/app-release-signed.apk
