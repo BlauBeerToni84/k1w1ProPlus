@@ -22,9 +22,9 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # Kein setup-android Action! Wir nutzen das vorinstallierte SDK.
+      # WICHTIG: Kein setup-android Action!
       - name: Point ANDROID_SDK_ROOT to preinstalled SDK
-        run: echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+        run: echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
 
       - name: Install Android packages + accept licenses
         run: |
