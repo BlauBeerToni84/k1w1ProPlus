@@ -22,22 +22,21 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          accept-android-sdk-licenses: true
-          log-accepted-android-sdk-licenses: true
+      # Kein setup-android Action! Wir nutzen das vorinstallierte SDK.
+      - name: Point ANDROID_SDK_ROOT to preinstalled SDK
+        run: echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> $GITHUB_ENV
 
-      - name: Install Android packages
+      - name: Install Android packages + accept licenses
         run: |
           set -euxo pipefail
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install \
+          SDKMAN="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMAN" --install \
             "platform-tools" \
             "platforms;android-34" \
             "build-tools;34.0.0" \
             "cmake;3.22.1" \
             "ndk;27.1.12297006"
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+          yes | "$SDKMAN" --licenses
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
@@ -101,15 +100,15 @@ jobs:
           UNSIGNED="$OUT/app-release-unsigned.apk"
           ALIGNED="$OUT/app-release-aligned.apk"
           SIGNED="$OUT/app-release-signed.apk"
-          test -f "$UNSIGNED" || { echo "Unsigned APK not found at $UNSIGNED"; exit 1; }
-          "$ANDROID_HOME/build-tools/34.0.0/zipalign" -p 4 "$UNSIGNED" "$ALIGNED"
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" sign \
+          test -f "$UNSIGNED" || { echo "Unsigned APK not found at $UNSIGNED"; ls -R android/app/build/outputs || true; exit 1; }
+          "$ANDROID_SDK_ROOT/build-tools/34.0.0/zipalign" -p 4 "$UNSIGNED" "$ALIGNED"
+          "$ANDROID_SDK_ROOT/build-tools/34.0.0/apksigner" sign \
             --ks android/upload-keystore.jks \
             --ks-key-alias "$ANDROID_KEY_ALIAS" \
             --ks-pass env:ANDROID_KEYSTORE_PASSWORD \
             --key-pass env:ANDROID_KEY_PASSWORD \
             --out "$SIGNED" "$ALIGNED"
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "$SIGNED"
+          "$ANDROID_SDK_ROOT/build-tools/34.0.0/apksigner" verify --print-certs "$SIGNED"
 
       - name: Upload signed APK
         uses: actions/upload-artifact@v4
