@@ -30,7 +30,7 @@ jobs:
 
       - name: Install Android packages + accept licenses
         run: |
-          set -euxo pipefail
+          set -eux
           SDKMAN="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
           if [ ! -x "$SDKMAN" ]; then
             SDKMAN="$(ls -d "$ANDROID_SDK_ROOT"/cmdline-tools/*/bin/sdkmanager | head -n1)"
@@ -80,7 +80,7 @@ jobs:
           JAVA_TOOL_OPTIONS: "-Xmx3g"
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -Dkotlin.daemon.jvm.options=-Xmx2g"
         run: |
-          set -euxo pipefail
+          set -eux
           chmod +x ./gradlew
           ./gradlew --version
           ./gradlew :app:tasks --all
@@ -100,7 +100,7 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          set -euxo pipefail
+          set -eux
           OUT=android/app/build/outputs/apk/release
           UNSIGNED="$OUT/app-release-unsigned.apk"
           ALIGNED="$OUT/app-release-aligned.apk"
