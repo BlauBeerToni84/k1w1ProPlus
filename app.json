@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "K1r@.777",
+    "slug": "k1w1ProPlus",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff",
+        "monochromeImage": "./assets/monochrome-icon.png"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.frucht84.k1w1proplus"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c8da96c3-3494-43a0-b7a1-79816222d140"
+      }
+    },
+    "owner": "frucht84",
+    "scheme": "k1w1proplus",
+    "plugins": [
+      "expo-router"
+    ]
+  },
+  "extra": {
+    "eas": {
+      "projectId": "c8da96c3-3494-43a0-b7a1-79816222d140"
+    }
+  }
+}

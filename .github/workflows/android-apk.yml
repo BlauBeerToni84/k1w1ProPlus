@@ -1,0 +1,88 @@
+name: Android APK (Gradle • no EAS)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    env:
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      NODE_OPTIONS: --max-old-space-size=4096
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Android packages + accept licenses
+        run: |
+          set -eux
+          SDKMAN="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMAN" ]; then
+            SDKMAN="$(ls -d "$ANDROID_SDK_ROOT"/cmdline-tools/*/bin/sdkmanager | head -n1)"
+          fi
+          yes | "$SDKMAN" --install \
+            "platform-tools" \
+            "platforms;android-35" \
+            "build-tools;36.0.0" \
+            "cmake;3.22.1" \
+            "ndk;26.1.10909125"
+          yes | "$SDKMAN" --licenses || true
+
+      - name: Install JS deps
+        run: |
+          set -eux
+          npm ci
+
+      - name: Ensure Android project (Expo prebuild if missing)
+        run: |
+          set -eux
+          if [ ! -f android/gradlew ]; then
+            npx expo prebuild --platform android --non-interactive --no-install
+          fi
+
+      - name: Prepare keystore from secrets (optional)
+        if: env.ANDROID_KEYSTORE_BASE64 != ''
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -eux
+          mkdir -p android/app
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
+          {
+            echo "MYAPP_UPLOAD_STORE_FILE=release.keystore"
+            echo "MYAPP_UPLOAD_KEY_ALIAS=$ANDROID_KEY_ALIAS"
+            echo "MYAPP_UPLOAD_STORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD"
+            echo "MYAPP_UPLOAD_KEY_PASSWORD=$ANDROID_KEY_PASSWORD"
+          } >> android/gradle.properties
+
+      - name: Assemble Release
+        working-directory: android
+        run: |
+          set -eux
+          chmod +x ./gradlew
+          ./gradlew :app:assembleRelease --no-daemon --stacktrace --info
+
+      - name: Upload APK/AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-dist
+          path: |
+            android/app/build/outputs/apk/release/*.apk
+            android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: warn

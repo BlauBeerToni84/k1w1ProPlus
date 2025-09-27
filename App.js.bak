@@ -1,0 +1,20 @@
+import React from 'react';
+import { useFonts } from 'expo-font';
+import AppNavigator from './src/navigation/AppNavigator';
+import { View, Text } from 'react-native';
+
+const App = () => {
+  const [fontsLoaded] = useFonts({
+    'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
+    'SpaceGrotesk-Regular': require('./assets/fonts/SpaceGrotesk-Regular.ttf'),
+    'SourceCodePro-Regular': require('./assets/fonts/SourceCodePro-Regular.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <View><Text>Loading Fonts...</Text></View>;
+  }
+
+  return <AppNavigator />;
+};
+
+export default App;

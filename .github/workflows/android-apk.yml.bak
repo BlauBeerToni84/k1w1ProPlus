@@ -1,0 +1,104 @@
+name: Android APK (Gradle • no EAS)
+on:
+  workflow_dispatch:
+
+env:
+  ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+  ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+  ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+  ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install deps
+        run: |
+          set -eux
+          corepack enable || true
+          npm ci
+
+      - name: Install Android packages + accept licenses
+        run: |
+          set -eux
+          SDKMAN="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMAN" ]; then
+            SDKMAN="$(ls -d "$ANDROID_SDK_ROOT"/cmdline-tools/*/bin/sdkmanager | head -n1)"
+          fi
+          set +o pipefail
+          yes | "$SDKMAN" --install \
+            "platform-tools" \
+            "platforms;android-35" \
+            "build-tools;36.0.0" \
+            "cmake;3.22.1" \
+            "ndk;26.1.10909125"
+          yes | "$SDKMAN" --licenses
+          set -o pipefail
+
+      - name: React Native bundle dry-run
+        continue-on-error: true
+        run: |
+          set -eux
+          ENTRY="index.js"; [ -f index.tsx ] && ENTRY=index.tsx; [ -f index.ts ] && ENTRY=index.ts
+          npx react-native bundle \
+            --platform android --dev false \
+            --entry-file "$ENTRY" \
+            --bundle-output /tmp/index.android.bundle \
+            --assets-dest /tmp/app-assets \
+            --config metro.config.js
+
+      - name: Prepare keystore from secrets (optional)
+        if: env.ANDROID_KEYSTORE_BASE64 != ''
+        run: |
+          set -eux
+          mkdir -p android/app
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
+          {
+            echo "MYAPP_UPLOAD_STORE_FILE=release.keystore"
+            echo "MYAPP_UPLOAD_KEY_ALIAS=${ANDROID_KEY_ALIAS}"
+            echo "MYAPP_UPLOAD_STORE_PASSWORD=${ANDROID_KEYSTORE_PASSWORD}"
+            echo "MYAPP_UPLOAD_KEY_PASSWORD=${ANDROID_KEY_PASSWORD}"
+          } >> android/gradle.properties
+
+      - name: Assemble Release
+        working-directory: android
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          set -eux
+          chmod +x ./gradlew
+          ./gradlew :app:assembleRelease --no-daemon --stacktrace --info
+
+      - name: Upload APK/AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-dist
+          path: |
+            android/app/build/outputs/apk/release/*.apk
+            android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: warn
+
+      - name: Upload bundle dry-run output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-dryrun
+          path: |
+            /tmp/index.android.bundle
+            /tmp/app-assets
+          if-no-files-found: ignore
