@@ -1,0 +1,43 @@
+== k1w1ProPlus DEV REPORT ==
+- Node: v22.20.0
+- NPM : 10.9.3
+- PWD : /home/kiwi/k1w1ProPlus
+
+--- expo doctor ---
+
+  $ expo doctor is not supported in the local CLI, please use npx expo-doctor instead
+
+
+--- expo install --check ---
+[33m[1mWarning: [22mRoot-level [1m"expo"[22m object found. Ignoring extra key in Expo config: "extra"
+[90mLearn more: https://expo.fyi/root-expo-object[0m[0m
+Dependencies are up to date
+
+--- eslint --fix ---
+
+--- npm prune & dedupe ---
+
+--- git status (optional) ---
+ M App.js
+ M app.json
+ M firebase.json
+ D metro.config.js
+ M package-lock.json
+ M package.json
+ D pnpm-lock.yaml
+ D src/firebaseConfig.js
+ D src/initFirebase.js
+ M src/navigation/AppNavigator.js
+ M src/screens/ChatScreen.js
+ M src/screens/LoginScreen.js
+ M src/screens/ProjectSelectionScreen.js
+ M src/screens/SignUpScreen.js
+?? .dev_audit/
+?? firestore.rules
+?? k1w1_dev_fix_restart.sh
+?? k1w1_dev_start.sh
+?? metro.config.js.bak
+?? storage.rules
+
+== REPORT ENDE ==
+

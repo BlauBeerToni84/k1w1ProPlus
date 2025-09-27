@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -53,3 +53,87 @@ const SignUpScreen = () => {
       setLoading(false);
     }
   };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headline}>Registrieren</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="E-Mail"
+        placeholderTextColor={COLORS.gray}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Passwort"
+        placeholderTextColor={COLORS.gray}
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+
+      {loading ? (
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>Registrieren</Text>
+        </TouchableOpacity>
+      )}
+
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.loginText}>Bereits ein Konto? Anmelden</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    backgroundColor: COLORS.primary,
+    borderRadius: 8,
+    marginBottom: 20,
+    padding: 15,
+    width: '100%',
+  },
+  buttonText: {
+    color: COLORS.black,
+    fontFamily: FONTS.headlines,
+    fontSize: 18,
+  },
+  container: {
+    alignItems: 'center',
+    backgroundColor: COLORS.background,
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  headline: {
+    color: COLORS.primary,
+    fontFamily: FONTS.headlines,
+    fontSize: 32,
+    marginBottom: 30,
+  },
+  input: {
+    backgroundColor: '#1A1A2A', // Slightly lighter dark for input fields
+    borderRadius: 8,
+    color: COLORS.white,
+    fontFamily: FONTS.body,
+    fontSize: 16,
+    marginBottom: 15,
+    padding: 15,
+    width: '100%',
+  },
+  loginText: {
+    color: COLORS.accent,
+    fontFamily: FONTS.body,
+    fontSize: 16,
+    marginTop: 20,
+  },
+});
+
+export default SignUpScreen;

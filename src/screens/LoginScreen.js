@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -84,46 +84,46 @@ const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
+  button: {
     alignItems: 'center',
+    backgroundColor: COLORS.primary,
+    borderRadius: 8,
+    marginBottom: 20,
+    padding: 15,
+    width: '100%',
+  },
+  buttonText: {
+    color: COLORS.black,
+    fontFamily: FONTS.headlines,
+    fontSize: 18,
+  },
+  container: {
+    alignItems: 'center',
+    backgroundColor: COLORS.background,
+    flex: 1,
     justifyContent: 'center',
     padding: 20,
   },
   headline: {
+    color: COLORS.primary,
     fontFamily: FONTS.headlines,
     fontSize: 32,
-    color: COLORS.primary,
     marginBottom: 30,
   },
   input: {
-    width: '100%',
     backgroundColor: '#1A1A2A', // Slightly lighter dark for input fields
     borderRadius: 8,
-    padding: 15,
-    fontSize: 16,
     color: COLORS.white,
     fontFamily: FONTS.body,
+    fontSize: 16,
     marginBottom: 15,
-  },
-  button: {
-    width: '100%',
-    backgroundColor: COLORS.primary,
-    borderRadius: 8,
     padding: 15,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  buttonText: {
-    color: COLORS.black,
-    fontSize: 18,
-    fontFamily: FONTS.headlines,
+    width: '100%',
   },
   signUpText: {
     color: COLORS.accent,
-    fontSize: 16,
     fontFamily: FONTS.body,
+    fontSize: 16,
     marginTop: 20,
   },
 });

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList, Alert, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { collection, addDoc, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebaseConfig';
 import * as SecureStore from 'expo-secure-store';
 import { COLORS } from '../theme/colors';
@@ -135,100 +135,100 @@ const ProjectSelectionScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-    alignItems: 'center',
-    padding: 20,
-  },
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    color: COLORS.primary,
-    fontSize: 20,
-    fontFamily: FONTS.body,
-  },
-  headline: {
-    fontFamily: FONTS.headlines,
-    fontSize: 32,
-    color: COLORS.primary,
-    marginBottom: 30,
-  },
-  createProjectContainer: {
-    width: '100%',
-    marginBottom: 30,
-    alignItems: 'center',
-  },
-  input: {
-    width: '100%',
-    backgroundColor: '#1A1A2A',
-    borderRadius: 8,
-    padding: 15,
-    fontSize: 16,
-    color: COLORS.white,
-    fontFamily: FONTS.body,
-    marginBottom: 15,
-  },
-  createButton: {
-    backgroundColor: COLORS.accent,
-    borderRadius: 8,
-    padding: 15,
-    alignItems: 'center',
-    width: '100%',
-  },
-  createButtonText: {
-    color: COLORS.black,
-    fontSize: 18,
-    fontFamily: FONTS.headlines,
-  },
-  projectList: {
-    width: '100%',
-  },
-  projectItem: {
-    backgroundColor: '#1A1A2A',
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  activeProjectItem: {
-    borderColor: COLORS.primary,
-    borderWidth: 2,
-  },
-  projectItemText: {
-    color: COLORS.white,
-    fontSize: 16,
-    fontFamily: FONTS.body,
-  },
   activeIndicator: {
     color: COLORS.primary,
     fontFamily: FONTS.code,
     fontSize: 14,
   },
-  noProjectsText: {
-    color: COLORS.gray,
-    fontSize: 16,
-    fontFamily: FONTS.body,
-    marginTop: 20,
+  activeProjectItem: {
+    borderColor: COLORS.primary,
+    borderWidth: 2,
   },
-  goToChatButton: {
-    backgroundColor: COLORS.primary,
+  container: {
+    alignItems: 'center',
+    backgroundColor: COLORS.background,
+    flex: 1,
+    padding: 20,
+  },
+  createButton: {
+    alignItems: 'center',
+    backgroundColor: COLORS.accent,
     borderRadius: 8,
     padding: 15,
-    alignItems: 'center',
     width: '100%',
+  },
+  createButtonText: {
+    color: COLORS.black,
+    fontFamily: FONTS.headlines,
+    fontSize: 18,
+  },
+  createProjectContainer: {
+    alignItems: 'center',
+    marginBottom: 30,
+    width: '100%',
+  },
+  goToChatButton: {
+    alignItems: 'center',
+    backgroundColor: COLORS.primary,
+    borderRadius: 8,
     marginTop: 30,
+    padding: 15,
+    width: '100%',
   },
   goToChatButtonText: {
     color: COLORS.black,
-    fontSize: 18,
     fontFamily: FONTS.headlines,
+    fontSize: 18,
+  },
+  headline: {
+    color: COLORS.primary,
+    fontFamily: FONTS.headlines,
+    fontSize: 32,
+    marginBottom: 30,
+  },
+  input: {
+    backgroundColor: '#1A1A2A',
+    borderRadius: 8,
+    color: COLORS.white,
+    fontFamily: FONTS.body,
+    fontSize: 16,
+    marginBottom: 15,
+    padding: 15,
+    width: '100%',
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    backgroundColor: COLORS.background,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  loadingText: {
+    color: COLORS.primary,
+    fontFamily: FONTS.body,
+    fontSize: 20,
+  },
+  noProjectsText: {
+    color: COLORS.gray,
+    fontFamily: FONTS.body,
+    fontSize: 16,
+    marginTop: 20,
+  },
+  projectItem: {
+    alignItems: 'center',
+    backgroundColor: '#1A1A2A',
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    padding: 15,
+  },
+  projectItemText: {
+    color: COLORS.white,
+    fontFamily: FONTS.body,
+    fontSize: 16,
+  },
+  projectList: {
+    width: '100%',
   },
 });
 

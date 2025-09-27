@@ -1,5 +1,4 @@
 import './src/initFirebase';
-import React from 'react';
 import { useFonts } from 'expo-font';
 import AppNavigator from './src/navigation/AppNavigator'; // Keep for later, but not used immediately
 import { View, Text, StyleSheet } from 'react-native';
@@ -32,15 +31,15 @@ const App = () => {
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: COLORS.background,
+    flex: 1,
+    justifyContent: 'center',
   },
   loadingText: {
     color: COLORS.primary,
-    fontSize: 20,
-    fontFamily: FONTS.body, // Use a loaded font for loading text
+    fontFamily: FONTS.body,
+    fontSize: 20, // Use a loaded font for loading text
   },
 });
 
