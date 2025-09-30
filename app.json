@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "K1r@.777",
+    "name": "k1w1ProPlus",
     "slug": "k1w1ProPlus",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0A0A0F"
+      "backgroundColor": "#000000"
     },
     "ios": {
       "supportsTablet": true
@@ -18,8 +18,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0A0A0F",
-        "monochromeImage": "./assets/monochrome-icon.png"
+        "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.frucht84.k1w1proplus"
@@ -36,11 +35,15 @@
     "scheme": "k1w1proplus",
     "plugins": [
       "expo-router"
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/c8da96c3-3494-43a0-b7a1-79816222d140"
+    },
+    "platforms": [
+      "android"
     ]
-  },
-  "extra": {
-    "eas": {
-      "projectId": "c8da96c3-3494-43a0-b7a1-79816222d140"
-    }
   }
 }

@@ -1,0 +1,9 @@
+Starting project at /home/kiwi/k1w1ProPlus
+[33m[1mWarning: [22mRoot-level [1m"expo"[22m object found. Ignoring extra key in Expo config: "extra"
+[90mLearn more: https://expo.fyi/root-expo-object[0m[0m
+› Port 8081 is being used by another process
+Input is required, but 'npx expo' is in non-interactive mode.
+Required input:
+> Use port 8082 instead?
+› Skipping dev server
+--- Dev-Server läuft (LAN). Siehe QR/URL oben. ---

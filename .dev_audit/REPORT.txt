@@ -1,43 +1,651 @@
 == k1w1ProPlus DEV REPORT ==
-- Node: v22.20.0
-- NPM : 10.9.3
-- PWD : /home/kiwi/k1w1ProPlus
-
---- expo doctor ---
-
-  $ expo doctor is not supported in the local CLI, please use npx expo-doctor instead
-
-
---- expo install --check ---
-[33m[1mWarning: [22mRoot-level [1m"expo"[22m object found. Ignoring extra key in Expo config: "extra"
-[90mLearn more: https://expo.fyi/root-expo-object[0m[0m
-Dependencies are up to date
-
---- eslint --fix ---
-
---- npm prune & dedupe ---
-
---- git status (optional) ---
- M App.js
- M app.json
- M firebase.json
- D metro.config.js
- M package-lock.json
- M package.json
- D pnpm-lock.yaml
- D src/firebaseConfig.js
- D src/initFirebase.js
- M src/navigation/AppNavigator.js
- M src/screens/ChatScreen.js
- M src/screens/LoginScreen.js
- M src/screens/ProjectSelectionScreen.js
- M src/screens/SignUpScreen.js
-?? .dev_audit/
-?? firestore.rules
-?? k1w1_dev_fix_restart.sh
-?? k1w1_dev_start.sh
-?? metro.config.js.bak
-?? storage.rules
-
-== REPORT ENDE ==
-
+- Node:
+v22.20.0
+- NPM :
+10.9.3
+- PWD :
+/home/kiwi/k1w1ProPlus
+- Ulimit (open files):
+1024
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-ft-flow@2.0.3
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^8.1.0" from eslint-plugin-ft-flow@2.0.3
+npm warn node_modules/eslint-plugin-ft-flow
+npm warn   eslint-plugin-ft-flow@"^2.0.1" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^8.1.0" from eslint-plugin-ft-flow@2.0.3
+npm warn   node_modules/eslint-plugin-ft-flow
+npm warn     eslint-plugin-ft-flow@"^2.0.1" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-jest@26.9.0
+npm warn Found: @typescript-eslint/eslint-plugin@8.44.1
+npm warn node_modules/@typescript-eslint/eslint-plugin
+npm warn   @typescript-eslint/eslint-plugin@"8.44.1" from typescript-eslint@8.44.1
+npm warn   node_modules/typescript-eslint
+npm warn     dev typescript-eslint@"^8.44.1" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @typescript-eslint/eslint-plugin@"^5.0.0" from eslint-plugin-jest@26.9.0
+npm warn node_modules/eslint-plugin-jest
+npm warn   eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: @typescript-eslint/eslint-plugin@5.62.0
+npm warn node_modules/@typescript-eslint/eslint-plugin
+npm warn   peerOptional @typescript-eslint/eslint-plugin@"^5.0.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn     eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-jest@26.9.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from eslint-plugin-jest@26.9.0
+npm warn node_modules/eslint-plugin-jest
+npm warn   eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn     eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-react-hooks@4.6.2
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0" from eslint-plugin-react-hooks@4.6.2
+npm warn node_modules/eslint-plugin-react-hooks
+npm warn   eslint-plugin-react-hooks@"^4.6.0" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0" from eslint-plugin-react-hooks@4.6.2
+npm warn   node_modules/eslint-plugin-react-hooks
+npm warn     eslint-plugin-react-hooks@"^4.6.0" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/eslint-plugin@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn   @typescript-eslint/eslint-plugin@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn     @typescript-eslint/eslint-plugin@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/parser@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/parser@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/parser
+npm warn   @typescript-eslint/parser@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn   1 more (@typescript-eslint/eslint-plugin)
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/parser@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/parser
+npm warn     @typescript-eslint/parser@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn     1 more (@typescript-eslint/eslint-plugin)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-react-native@4.1.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^3.17.0 || ^4 || ^5 || ^6 || ^7 || ^8" from eslint-plugin-react-native@4.1.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/eslint-plugin-react-native
+npm warn   eslint-plugin-react-native@"^4.0.0" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^3.17.0 || ^4 || ^5 || ^6 || ^7 || ^8" from eslint-plugin-react-native@4.1.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/eslint-plugin-react-native
+npm warn     eslint-plugin-react-native@"^4.0.0" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/eslint-plugin-jest/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"^5.10.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/eslint-plugin-jest/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"^5.10.0" from eslint-plugin-jest@26.9.0
+npm warn     node_modules/eslint-plugin-jest
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"5.62.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"5.62.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn     node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"5.62.0" from @typescript-eslint/type-utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"5.62.0" from @typescript-eslint/type-utils@5.62.0
+npm warn     node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm error code EMFILE
+npm error syscall open
+npm error path /home/kiwi/.npm/_cacache/index-v5/15/81/2b0e9768caac7bf375e993a0cd521f02f12296c7d297c01412e362a600e3
+npm error errno -24
+npm error EMFILE: too many open files, open '/home/kiwi/.npm/_cacache/index-v5/15/81/2b0e9768caac7bf375e993a0cd521f02f12296c7d297c01412e362a600e3'
+npm error A complete log of this run can be found in: /home/kiwi/.npm/_logs/2025-09-27T17_23_06_892Z-debug-0.log
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-ft-flow@2.0.3
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^8.1.0" from eslint-plugin-ft-flow@2.0.3
+npm warn node_modules/eslint-plugin-ft-flow
+npm warn   eslint-plugin-ft-flow@"^2.0.1" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^8.1.0" from eslint-plugin-ft-flow@2.0.3
+npm warn   node_modules/eslint-plugin-ft-flow
+npm warn     eslint-plugin-ft-flow@"^2.0.1" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-jest@26.9.0
+npm warn Found: @typescript-eslint/eslint-plugin@8.44.1
+npm warn node_modules/@typescript-eslint/eslint-plugin
+npm warn   @typescript-eslint/eslint-plugin@"8.44.1" from typescript-eslint@8.44.1
+npm warn   node_modules/typescript-eslint
+npm warn     dev typescript-eslint@"^8.44.1" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @typescript-eslint/eslint-plugin@"^5.0.0" from eslint-plugin-jest@26.9.0
+npm warn node_modules/eslint-plugin-jest
+npm warn   eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: @typescript-eslint/eslint-plugin@5.62.0
+npm warn node_modules/@typescript-eslint/eslint-plugin
+npm warn   peerOptional @typescript-eslint/eslint-plugin@"^5.0.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn     eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-jest@26.9.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from eslint-plugin-jest@26.9.0
+npm warn node_modules/eslint-plugin-jest
+npm warn   eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn     eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-react-hooks@4.6.2
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0" from eslint-plugin-react-hooks@4.6.2
+npm warn node_modules/eslint-plugin-react-hooks
+npm warn   eslint-plugin-react-hooks@"^4.6.0" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0" from eslint-plugin-react-hooks@4.6.2
+npm warn   node_modules/eslint-plugin-react-hooks
+npm warn     eslint-plugin-react-hooks@"^4.6.0" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/eslint-plugin@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn   @typescript-eslint/eslint-plugin@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn     @typescript-eslint/eslint-plugin@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/parser@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/parser@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/parser
+npm warn   @typescript-eslint/parser@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn   1 more (@typescript-eslint/eslint-plugin)
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/parser@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/parser
+npm warn     @typescript-eslint/parser@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn     1 more (@typescript-eslint/eslint-plugin)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-react-native@4.1.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^3.17.0 || ^4 || ^5 || ^6 || ^7 || ^8" from eslint-plugin-react-native@4.1.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/eslint-plugin-react-native
+npm warn   eslint-plugin-react-native@"^4.0.0" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^3.17.0 || ^4 || ^5 || ^6 || ^7 || ^8" from eslint-plugin-react-native@4.1.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/eslint-plugin-react-native
+npm warn     eslint-plugin-react-native@"^4.0.0" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/eslint-plugin-jest/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"^5.10.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/eslint-plugin-jest/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"^5.10.0" from eslint-plugin-jest@26.9.0
+npm warn     node_modules/eslint-plugin-jest
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"5.62.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"5.62.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn     node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"5.62.0" from @typescript-eslint/type-utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"5.62.0" from @typescript-eslint/type-utils@5.62.0
+npm warn     node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, lstat '/home/kiwi/k1w1ProPlus/node_modules/react-native/src/private/specs_DEPRECATED'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/ActionSheetIOS/NativeActionSheetManager.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Alert/NativeAlertManager.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Animated/NativeAnimatedAllowlist.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/src/private/animated/NativeAnimatedHelper.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Animated/NativeAnimatedModule.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Animated/NativeAnimatedTurboModule.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/src/private/animated/NativeAnimatedValidation.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Utilities/NativeAppearance.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/AppState/NativeAppState.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Blob/NativeBlobModule.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Components/Clipboard/NativeClipboard.js'
+npm warn cleanup Failed to remove some directories [
+npm warn cleanup   [
+npm warn cleanup     '/home/kiwi/k1w1ProPlus/node_modules/react-native',
+npm warn cleanup     [Error: ENOTEMPTY: directory not empty, rmdir '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Components/AccessibilityInfo'] {
+npm warn cleanup       errno: -39,
+npm warn cleanup       code: 'ENOTEMPTY',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/Components/AccessibilityInfo'
+npm warn cleanup     }
+npm warn cleanup   ]
+npm warn cleanup ]
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/jest/mocks/NativeComponentRegistry.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/NativeComponent/NativeComponentRegistry.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/home/kiwi/k1w1ProPlus/node_modules/react-native/Libraries/NativeComponent/NativeComponentRegistryUnstable.js'
+npm error code EMFILE
+npm error syscall open
+npm error path /home/kiwi/.npm/_cacache/index-v5/66/9c/790ba025cb6a647e78ec2a89fd43f1c66f266ea46b536febf157f169c5c9
+npm error errno -24
+npm error EMFILE: too many open files, open '/home/kiwi/.npm/_cacache/index-v5/66/9c/790ba025cb6a647e78ec2a89fd43f1c66f266ea46b536febf157f169c5c9'
+npm error A complete log of this run can be found in: /home/kiwi/.npm/_logs/2025-09-27T17_25_01_764Z-debug-0.log
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-ft-flow@2.0.3
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^8.1.0" from eslint-plugin-ft-flow@2.0.3
+npm warn node_modules/eslint-plugin-ft-flow
+npm warn   eslint-plugin-ft-flow@"^2.0.1" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^8.1.0" from eslint-plugin-ft-flow@2.0.3
+npm warn   node_modules/eslint-plugin-ft-flow
+npm warn     eslint-plugin-ft-flow@"^2.0.1" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-jest@26.9.0
+npm warn Found: @typescript-eslint/eslint-plugin@8.44.1
+npm warn node_modules/@typescript-eslint/eslint-plugin
+npm warn   @typescript-eslint/eslint-plugin@"8.44.1" from typescript-eslint@8.44.1
+npm warn   node_modules/typescript-eslint
+npm warn     dev typescript-eslint@"^8.44.1" from the root project
+npm warn
+npm warn Could not resolve dependency:
+npm warn peerOptional @typescript-eslint/eslint-plugin@"^5.0.0" from eslint-plugin-jest@26.9.0
+npm warn node_modules/eslint-plugin-jest
+npm warn   eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: @typescript-eslint/eslint-plugin@5.62.0
+npm warn node_modules/@typescript-eslint/eslint-plugin
+npm warn   peerOptional @typescript-eslint/eslint-plugin@"^5.0.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn     eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-jest@26.9.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from eslint-plugin-jest@26.9.0
+npm warn node_modules/eslint-plugin-jest
+npm warn   eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn     eslint-plugin-jest@"^26.5.3" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-react-hooks@4.6.2
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0" from eslint-plugin-react-hooks@4.6.2
+npm warn node_modules/eslint-plugin-react-hooks
+npm warn   eslint-plugin-react-hooks@"^4.6.0" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0" from eslint-plugin-react-hooks@4.6.2
+npm warn   node_modules/eslint-plugin-react-hooks
+npm warn     eslint-plugin-react-hooks@"^4.6.0" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/eslint-plugin@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn   @typescript-eslint/eslint-plugin@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn     @typescript-eslint/eslint-plugin@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/parser@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/parser@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/parser
+npm warn   @typescript-eslint/parser@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn   1 more (@typescript-eslint/eslint-plugin)
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/parser@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/parser
+npm warn     @typescript-eslint/parser@"^5.30.5" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn     1 more (@typescript-eslint/eslint-plugin)
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: eslint-plugin-react-native@4.1.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^3.17.0 || ^4 || ^5 || ^6 || ^7 || ^8" from eslint-plugin-react-native@4.1.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/eslint-plugin-react-native
+npm warn   eslint-plugin-react-native@"^4.0.0" from @react-native-community/eslint-config@3.2.0
+npm warn   node_modules/@react-native-community/eslint-config
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^3.17.0 || ^4 || ^5 || ^6 || ^7 || ^8" from eslint-plugin-react-native@4.1.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/eslint-plugin-react-native
+npm warn     eslint-plugin-react-native@"^4.0.0" from @react-native-community/eslint-config@3.2.0
+npm warn     node_modules/@react-native-community/eslint-config
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/eslint-plugin-jest/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"^5.10.0" from eslint-plugin-jest@26.9.0
+npm warn   node_modules/eslint-plugin-jest
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/eslint-plugin-jest/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"^5.10.0" from eslint-plugin-jest@26.9.0
+npm warn     node_modules/eslint-plugin-jest
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"5.62.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"5.62.0" from @typescript-eslint/eslint-plugin@5.62.0
+npm warn     node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/eslint-plugin
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: @typescript-eslint/utils@5.62.0
+npm warn Found: eslint@9.36.0
+npm warn node_modules/eslint
+npm warn   dev eslint@"^9.36.0" from the root project
+npm warn   15 more (@babel/eslint-parser, @babel/eslint-plugin, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/utils
+npm warn   @typescript-eslint/utils@"5.62.0" from @typescript-eslint/type-utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils
+npm warn
+npm warn Conflicting peer dependency: eslint@8.57.1
+npm warn node_modules/eslint
+npm warn   peer eslint@"^6.0.0 || ^7.0.0 || ^8.0.0" from @typescript-eslint/utils@5.62.0
+npm warn   node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils/node_modules/@typescript-eslint/utils
+npm warn     @typescript-eslint/utils@"5.62.0" from @typescript-eslint/type-utils@5.62.0
+npm warn     node_modules/@react-native-community/eslint-config/node_modules/@typescript-eslint/type-utils
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm error code EMFILE
+npm error syscall open
+npm error path /home/kiwi/.npm/_cacache/index-v5/25/84/553c295f1dfb290dd6a13ebd6bbea9fc0ab99e5c60ad4ad4ce134dc69e36
+npm error errno -24
+npm error EMFILE: too many open files, open '/home/kiwi/.npm/_cacache/index-v5/25/84/553c295f1dfb290dd6a13ebd6bbea9fc0ab99e5c60ad4ad4ce134dc69e36'
+npm error A complete log of this run can be found in: /home/kiwi/.npm/_logs/2025-09-27T17_26_35_047Z-debug-0.log
+npm warn config optional Use `--omit=optional` to exclude optional dependencies, or
+npm warn config `--include=optional` to include them.
+npm warn config
+npm warn config       Default value does install optional deps unless otherwise omitted.
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm error code EMFILE
+npm error syscall open
+npm error path /home/kiwi/.npm/_cacache/index-v5/5d/40/83cc658ac65f1e16a525a48e953709f922f03962fc0e13d1fd686b0f9192
+npm error errno -24
+npm error EMFILE: too many open files, open '/home/kiwi/.npm/_cacache/index-v5/5d/40/83cc658ac65f1e16a525a48e953709f922f03962fc0e13d1fd686b0f9192'
+npm error A complete log of this run can be found in: /home/kiwi/.npm/_logs/2025-09-27T17_28_10_129Z-debug-0.log
+[FAIL] npm install fehlgeschlagen (EMFILE?).

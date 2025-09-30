@@ -1,22 +1,17 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCG33RZCB63VGbGH48hfkvmowyKppkbF-4",
-  authDomain: "proplus-b9ff1.firebaseapp.com",
-  projectId: "proplus-b9ff1",
-  storageBucket: "proplus-b9ff1.firebasestorage.app",
-  messagingSenderId: "749408973957",
-  appId: "1:749408973957:web:e0c447d26f3209f35965ec",
-  measurementId: "G-TFJT56K6P5"
+  apiKey:        "DEIN_API_KEY",
+  authDomain:    "DEIN_PROJEKT.firebaseapp.com",
+  projectId:     "DEIN_PROJEKT_ID",
+  storageBucket: "DEIN_PROJEKT.appspot.com",
+  messagingSenderId: "DEINE_SENDER_ID",
+  appId:         "DEINE_APP_ID",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const firestore = getFirestore(app);
-const storage = getStorage(app);
-
-export { app, auth, firestore, storage };
+export const auth = getAuth(app);
+export const db   = getFirestore(app);
+export default app;

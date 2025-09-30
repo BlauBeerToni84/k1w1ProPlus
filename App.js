@@ -1,3 +1,4 @@
+import "./src/firebase/firebaseConfig";
 import './src/initFirebase';
 import { useFonts } from 'expo-font';
 import AppNavigator from './src/navigation/AppNavigator'; // Keep for later, but not used immediately
