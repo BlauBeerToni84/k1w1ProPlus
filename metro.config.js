@@ -1,19 +1,21 @@
 const { getDefaultConfig } = require('expo/metro-config');
+const path = require('path');
 const config = getDefaultConfig(__dirname);
-config.watchFolders = [__dirname];
+
 config.resolver = config.resolver || {};
-config.resolver.blockList = [
-    /node_modules\/re2\/vendor\/.*/,
-    /\.git\/.*/,
-    /\.expo\/.*/,
-    /android\/.*/,
-    /ios\/.*/,
-    /__legacy_backup__\/.*/,
-    /\.dev_audit\/.*/,
-    /\.eas-info\/.*/,
-    /\.github\/.*/,
-    /dist\/.*/,
-    /functions\/.*/,
-];
-config.maxWorkers = 1;
+const exts = new Set([...(config.resolver.sourceExts || []), 'cjs']);
+config.resolver.sourceExts = Array.from(exts);
+
+// Nur die node_modules aus dem Projekt verwenden
+config.resolver.nodeModulesPaths = [path.resolve(__dirname, 'node_modules')];
+
+// Safety-Pins auf die lokalen Firebase-Pakete
+const nm = p => path.resolve(__dirname, 'node_modules', p);
+config.resolver.extraNodeModules = {
+  firebase: nm('firebase'),
+  '@firebase/app': nm('@firebase/app'),
+  '@firebase/auth': nm('@firebase/auth'),
+  '@firebase/util': nm('@firebase/util'),
+  '@firebase/component': nm('@firebase/component'),
+};
 module.exports = config;

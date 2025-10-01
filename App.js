@@ -1,47 +1,15 @@
-import "./src/firebase/firebaseConfig";
-import './src/initFirebase';
-import { useFonts } from 'expo-font';
-import AppNavigator from './src/navigation/AppNavigator'; // Keep for later, but not used immediately
-import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from './src/theme/colors';
-import { FONTS } from './src/theme/fonts';
-import { StatusBar } from 'expo-status-bar'; // Add StatusBar import
+import "./src/initFirebase";
 
-const App = () => {
-  const [fontsLoaded] = useFonts({
-    'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
-    'SpaceGrotesk-Regular': require('./assets/fonts/SpaceGrotesk-Regular.ttf'),
-    'SourceCodePro-Regular': require('./assets/fonts/SourceCodePro-Regular.ttf'),
-  });
+import React from "react";
+import { View, Text } from "react-native";
 
-  if (!fontsLoaded) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Lade Schriftarten...</Text>
-      </View>
-    );
-  }
-
+export default function App() {
   return (
-    <>
-      <StatusBar style="light" />
-      <AppNavigator />
-    </>
+    <View style={{ flex: 1, backgroundColor: "#0f1115", justifyContent: "center", padding: 24 }}>
+      <Text style={{ fontSize: 28, color: "#1fb6ff", fontWeight: "700" }}>🔥 K1W1 Pro+ läuft mit Firebase!</Text>
+      <Text style={{ marginTop: 12, fontSize: 18, color: "#cfd3dc" }}>
+        Wenn du das hier siehst, ist Firebase korrekt initialisiert.
+      </Text>
+    </View>
   );
-};
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    alignItems: 'center',
-    backgroundColor: COLORS.background,
-    flex: 1,
-    justifyContent: 'center',
-  },
-  loadingText: {
-    color: COLORS.primary,
-    fontFamily: FONTS.body,
-    fontSize: 20, // Use a loaded font for loading text
-  },
-});
-
-export default App;
+}

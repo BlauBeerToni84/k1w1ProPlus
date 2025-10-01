@@ -33,9 +33,7 @@
     },
     "owner": "frucht84",
     "scheme": "k1w1proplus",
-    "plugins": [
-      "expo-router"
-    ],
+    "plugins": [],
     "runtimeVersion": {
       "policy": "appVersion"
     },
@@ -44,6 +42,8 @@
     },
     "platforms": [
       "android"
-    ]
-  }
+    ],
+    "entryPoint": "./node_modules/expo/AppEntry.js"
+  },
+  "main": "node_modules/expo/AppEntry.js"
 }
