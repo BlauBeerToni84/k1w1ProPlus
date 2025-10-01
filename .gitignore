@@ -45,3 +45,4 @@ node_modules
 .expo
 .expo-shared
 .git_bak
+.env
