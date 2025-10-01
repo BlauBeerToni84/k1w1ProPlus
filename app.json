@@ -29,7 +29,9 @@
     "extra": {
       "eas": {
         "projectId": "c8da96c3-3494-43a0-b7a1-79816222d140"
-      }
+      },
+      "supabaseUrl": process.env.EXPO_PUBLIC_SUPABASE_URL,
+      "supabaseAnonKey": process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
     },
     "owner": "frucht84",
     "scheme": "k1w1proplus",
